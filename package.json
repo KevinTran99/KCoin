@@ -1,0 +1,25 @@
+{
+  "name": "my-blockchain-group-assignment",
+  "version": "1.0.0",
+  "description": "My blockchain group assignment",
+  "main": "server.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --env-file=config/config.env server.mjs 5001 http://localhost:5001",
+    "dev": "nodemon --env-file=config/config.env server.mjs 5001 http://localhost:5001",
+    "node-1": "nodemon --env-file=config/config.env server.mjs 5001 http://localhost:5001",
+    "node-2": "nodemon --env-file=config/config.env server.mjs 5002 http://localhost:5002",
+    "node-3": "nodemon --env-file=config/config.env server.mjs 5003 http://localhost:5003"
+  },
+  "author": "Kevin Tran",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^1.6.0",
+    "nodemon": "^3.1.4",
+    "vitest": "^1.6.0"
+  }
+}
