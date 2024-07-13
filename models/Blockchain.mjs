@@ -93,10 +93,18 @@ export default class Blockchain {
       : +difficulty + 1;
   }
 
+  synchronizeChains(chain) {
+    if (chain.length > this.chain.length && this.validateChain(chain)) {
+      this.chain = chain;
+    } else {
+      return;
+    }
+  }
+
   validateChain(blockchain) {
     let isValid = true;
 
-    for (let i = 1; 1 < blockchain.length; i++) {
+    for (let i = 1; i < blockchain.length; i++) {
       const block = blockchain[i];
 
       const lastBlock = blockchain[i - 1];
