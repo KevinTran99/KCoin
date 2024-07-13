@@ -6,10 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --env-file=config/config.env server.mjs 5001 http://localhost:5001",
-    "dev": "nodemon --env-file=config/config.env server.mjs 5001 http://localhost:5001",
-    "node-1": "nodemon --env-file=config/config.env server.mjs 5001 http://localhost:5001",
-    "node-2": "nodemon --env-file=config/config.env server.mjs 5002 http://localhost:5002",
-    "node-3": "nodemon --env-file=config/config.env server.mjs 5003 http://localhost:5003"
+    "dev": "nodemon --env-file=config/config.env server.mjs",
+    "dev-node": "cross-env GENERATE_NODE_PORT='true' nodemon --env-file=config/config.env server.mjs"
   },
   "author": "Kevin Tran",
   "license": "MIT",
