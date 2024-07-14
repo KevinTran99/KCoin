@@ -1,16 +1,9 @@
 import { createHash } from '../utilities/crypto-lib.mjs';
 import Block from './Block.mjs';
-import Transaction from './Transaction.mjs';
 
 export default class Blockchain {
   constructor() {
     this.chain = [];
-
-    this.memberNodes = [];
-
-    this.pendingTransactions = [];
-
-    this.nodeUrl = process.argv[3];
 
     this.createBlock(Date.now(), '0', '0', [], 2048, +process.env.DIFFICULTY);
   }
@@ -33,22 +26,9 @@ export default class Blockchain {
       difficulty
     );
 
-    this.pendingTransactions = [];
     this.chain.push(block);
 
     return block;
-  }
-
-  createTransaction(amount, sender, recipient) {
-    const transaction = new Transaction(amount, sender, recipient);
-
-    return transaction;
-  }
-
-  addTransaction(transaction) {
-    this.pendingTransactions.push(transaction);
-
-    return this.getLastBlock().blockIndex + 1;
   }
 
   getLastBlock() {
