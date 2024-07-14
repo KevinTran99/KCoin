@@ -101,6 +101,8 @@ export default class Blockchain {
       if (hash !== block.currentBlockHash) return false;
 
       if (block.lastBlockHash !== lastBlock.currentBlockHash) return false;
+
+      if (Math.abs(lastBlock.difficulty - block.difficulty) > 1) return false;
     }
 
     return true;
