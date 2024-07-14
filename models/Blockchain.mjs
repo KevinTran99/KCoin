@@ -68,9 +68,11 @@ export default class Blockchain {
 
     if (difficulty < 1) return 1;
 
-    return timestamp - lastBlock.timestamp > MINE_RATE
-      ? +difficulty - 1
-      : +difficulty + 1;
+    if (timestamp - lastBlock.timestamp > MINE_RATE) {
+      return difficulty > 1 ? +difficulty - 1 : +difficulty;
+    } else {
+      return +difficulty + 1;
+    }
   }
 
   synchronizeChains(chain) {
