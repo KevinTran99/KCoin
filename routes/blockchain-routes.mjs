@@ -7,6 +7,6 @@ import {
 const router = express.Router();
 
 router.route('/').get(getBlockchain);
-router.route('/mine').get(mineBlock);
+router.route('/mine').post(mineBlock);
 
 export default router;
