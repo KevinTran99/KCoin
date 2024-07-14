@@ -1,10 +1,40 @@
 import express from 'express';
+import { blockchain, pubnubServer } from './startup.mjs';
 import blockchainRouter from './routes/blockchain-routes.mjs';
 
 const app = express();
-const PORT = process.argv[2] || process.env.PORT || 5010;
-
 app.use(express.json());
+
+const DEFAULT_PORT = +process.env.PORT;
+const ROOT_NODE = `http://localhost:${DEFAULT_PORT}`;
+
+let NODE_PORT;
+
+setTimeout(() => {
+  pubnubServer.broadcast();
+}, 1000);
+
 app.use('/api/v1/blockchain', blockchainRouter);
 
-app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
+const synchronize = async () => {
+  const response = await fetch(`${ROOT_NODE}/api/v1/blockchain`);
+  if (response.ok) {
+    const result = await response.json();
+    console.log('SYNC', result.data);
+    blockchain.synchronizeChains(result.data);
+  }
+};
+
+if (process.env.GENERATE_NODE_PORT === 'true') {
+  NODE_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000);
+}
+
+const PORT = NODE_PORT || DEFAULT_PORT;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port: ${PORT}`);
+
+  if (PORT !== DEFAULT_PORT) {
+    synchronize();
+  }
+});
