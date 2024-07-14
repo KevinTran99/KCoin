@@ -1,4 +1,4 @@
-import { blockchain } from '../startup.mjs';
+import { blockchain, pubnubServer } from '../startup.mjs';
 
 const getBlockchain = (req, res, next) => {
   res.status(200).json({ success: true, statusCode: 200, data: blockchain });
@@ -6,7 +6,7 @@ const getBlockchain = (req, res, next) => {
 
 const mineBlock = async (req, res, next) => {
   const lastBlock = blockchain.getLastBlock();
-  const data = blockchain.pendingTransactions;
+  const data = req.body;
   const { nonce, timestamp, difficulty } = blockchain.proofOfWork(
     lastBlock.currentBlockHash,
     data
@@ -29,11 +29,7 @@ const mineBlock = async (req, res, next) => {
     difficulty
   );
 
-  const reward = {
-    amount: 3.125,
-    sender: '0000',
-    recipient: blockchain.nodeUrl,
-  };
+  pubnubServer.broadcast();
 
   res.status(200).json({
     success: true,
