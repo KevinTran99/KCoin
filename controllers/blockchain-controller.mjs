@@ -1,7 +1,7 @@
 import { blockchain } from '../startup.mjs';
 
 const getBlockchain = (req, res, next) => {
-  res.status(200).json({ success: true, data: blockchain });
+  res.status(200).json({ success: true, statusCode: 200, data: blockchain });
 };
 
 const mineBlock = async (req, res, next) => {
