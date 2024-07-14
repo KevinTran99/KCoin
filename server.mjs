@@ -20,8 +20,8 @@ const synchronize = async () => {
   const response = await fetch(`${ROOT_NODE}/api/v1/blockchain`);
   if (response.ok) {
     const result = await response.json();
-    console.log('SYNC', result.data);
-    blockchain.synchronizeChains(result.data);
+    console.log('SYNC', result.data.chain);
+    blockchain.synchronizeChains(result.data.chain);
   }
 };
 
