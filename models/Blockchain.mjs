@@ -5,7 +5,7 @@ export default class Blockchain {
   constructor() {
     this.chain = [];
 
-    this.createBlock('1', '0', '0', [], 2048, +process.env.DIFFICULTY);
+    this.createBlock(1, '0', '0', [], 2048, +process.env.DIFFICULTY);
   }
 
   createBlock(
