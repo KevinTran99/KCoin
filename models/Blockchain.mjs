@@ -5,7 +5,7 @@ export default class Blockchain {
   constructor() {
     this.chain = [];
 
-    this.createBlock(Date.now(), '0', '0', [], 2048, +process.env.DIFFICULTY);
+    this.createBlock('1', '0', '0', [], 2048, +process.env.DIFFICULTY);
   }
 
   createBlock(
@@ -82,11 +82,12 @@ export default class Blockchain {
   }
 
   validateChain(blockchain) {
-    let isValid = true;
+    if (JSON.stringify(blockchain[0]) !== JSON.stringify(this.chain[0])) {
+      return false;
+    }
 
     for (let i = 1; i < blockchain.length; i++) {
       const block = blockchain[i];
-
       const lastBlock = blockchain[i - 1];
 
       const hash = this.hashBlock(
@@ -97,11 +98,11 @@ export default class Blockchain {
         block.difficulty
       );
 
-      if (hash !== block.currentBlockHash) isValid = false;
+      if (hash !== block.currentBlockHash) return false;
 
-      if (block.lastBlockHash !== lastBlock.currentBlockHash) isValid = false;
-
-      return isValid;
+      if (block.lastBlockHash !== lastBlock.currentBlockHash) return false;
     }
+
+    return true;
   }
 }
