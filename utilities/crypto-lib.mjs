@@ -6,3 +6,8 @@ export const createHash = (stringToHash) => {
 };
 
 export const ellipticHash = new ec('secp256k1');
+
+export const verifySignature = ({ publicKey, data, signature }) => {
+  const key = ellipticHash.keyFromPublic(publicKey, 'hex');
+  return key.verify(createHash(data), signature);
+};
