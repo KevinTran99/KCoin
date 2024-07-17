@@ -13,6 +13,8 @@ export const addTransaction = (req, res, next) => {
       .json({ success: false, statusCode: 400, error: error.message });
   }
 
+  transactionPool.addTransaction(transaction);
+
   res.status(201).json({ success: true, statusCode: 201, data: transaction });
 };
 
