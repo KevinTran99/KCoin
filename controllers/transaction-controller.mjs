@@ -3,10 +3,16 @@ import { transactionPool, wallet } from '../startup.mjs';
 export const addTransaction = (req, res, next) => {
   const { amount, recipient } = req.body;
 
-  let transaction;
+  let transaction = transactionPool.transactionExist({
+    address: wallet.publicKey,
+  });
 
   try {
-    transaction = wallet.createTransaction({ recipient, amount });
+    if (transaction) {
+      transaction.updateOutputMap({ sender: wallet, recipient, amount });
+    } else {
+      transaction = wallet.createTransaction({ recipient, amount });
+    }
   } catch (error) {
     return res
       .status(400)
