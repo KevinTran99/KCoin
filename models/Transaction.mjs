@@ -26,6 +26,15 @@ export default class Transaction {
     };
   }
 
+  updateOutputMap({ sender, recipient, amount }) {
+    this.outputMap[recipient] = amount;
+
+    this.outputMap[sender.publicKey] =
+      this.outputMap[sender.publicKey] - amount;
+
+    this.inputMap = this.createInputMap({ sender, outputMap: this.outputMap });
+  }
+
   static validate(transaction) {
     const {
       inputMap: { adress, amount, signature },
