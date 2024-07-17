@@ -11,7 +11,7 @@ export default class TransactionPool {
     const transactions = Object.values(this.transactionMap);
 
     return transactions.find(
-      (transaction) => transaction.input.address === address
+      (transaction) => transaction.inputMap.address === address
     );
   }
 }
