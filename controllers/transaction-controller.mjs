@@ -1,4 +1,4 @@
-import { transactionPool, wallet } from '../startup.mjs';
+import { pubnubServer, transactionPool, wallet } from '../startup.mjs';
 
 export const addTransaction = (req, res, next) => {
   const { amount, recipient } = req.body;
@@ -20,6 +20,7 @@ export const addTransaction = (req, res, next) => {
   }
 
   transactionPool.addTransaction(transaction);
+  pubnubServer.broadcastTransaction(transaction);
 
   res.status(201).json({ success: true, statusCode: 201, data: transaction });
 };
