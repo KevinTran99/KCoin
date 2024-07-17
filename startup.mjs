@@ -1,5 +1,7 @@
 import Blockchain from './models/Blockchain.mjs';
 import PubNubServer from './pubnubServer.mjs';
+import TransactionPool from './models/TransactionPool.mjs';
+import Wallet from './models/Wallet.mjs';
 
 const credentials = {
   publishKey: process.env.PUBLISH_KEY,
@@ -10,3 +12,5 @@ const credentials = {
 
 export const blockchain = new Blockchain();
 export const pubnubServer = new PubNubServer({ blockchain, credentials });
+export const transactionPool = new TransactionPool();
+export const wallet = new Wallet();
