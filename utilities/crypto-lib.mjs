@@ -3,8 +3,16 @@ import pkg from 'elliptic';
 
 const { ec } = pkg;
 
-export const createHash = (stringToHash) => {
-  return crypto.createHash('sha256').update(stringToHash).digest('hex');
+export const createHash = (...args) => {
+  return crypto
+    .createHash('sha256')
+    .update(
+      args
+        .map((arg) => JSON.stringify(arg))
+        .sort()
+        .join('')
+    )
+    .digest('hex');
 };
 
 export const ellipticHash = new ec('secp256k1');
