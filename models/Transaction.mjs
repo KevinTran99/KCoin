@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { verifySignature } from '../utilities/crypto-lib.mjs';
 
 export default class Transaction {
   constructor({ sender, recipient, amount }) {
@@ -23,5 +24,23 @@ export default class Transaction {
       address: sender.publicKey,
       signature: sender.sign(outputMap),
     };
+  }
+
+  static validate(transaction) {
+    const {
+      inputMap: { adress, amount, signature },
+      outputMap,
+    } = transaction;
+
+    const outputTotal = Object.values(outputMap).reduce(
+      (total, amount) => total + amount
+    );
+
+    if (amount !== outputTotal) return false;
+
+    if (!verifySignature({ publicKey: adress, data: outputMap, signature }))
+      return false;
+
+    return true;
   }
 }
