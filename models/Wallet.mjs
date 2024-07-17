@@ -3,7 +3,7 @@ import Transaction from './Transaction.mjs';
 
 export default class Wallet {
   constructor() {
-    this.balance = process.env.INITIAL_BALANCE;
+    this.balance = +process.env.INITIAL_BALANCE;
     this.keyPair = ellipticHash.genKeyPair();
     this.publicKey = this.keyPair.getPublic().encode('hex');
   }
