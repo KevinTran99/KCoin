@@ -40,7 +40,7 @@ export default class Transaction {
 
   static validate(transaction) {
     const {
-      inputMap: { adress, amount, signature },
+      inputMap: { address, amount, signature },
       outputMap,
     } = transaction;
 
@@ -50,7 +50,7 @@ export default class Transaction {
 
     if (amount !== outputTotal) return false;
 
-    if (!verifySignature({ publicKey: adress, data: outputMap, signature }))
+    if (!verifySignature({ publicKey: address, data: outputMap, signature }))
       return false;
 
     return true;
