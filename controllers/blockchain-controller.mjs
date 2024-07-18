@@ -1,4 +1,10 @@
-import { blockchain, pubnubServer } from '../startup.mjs';
+import Transaction from '../models/Transaction.mjs';
+import {
+  blockchain,
+  pubnubServer,
+  transactionPool,
+  wallet,
+} from '../startup.mjs';
 
 const getBlockchain = (req, res, next) => {
   res.status(200).json({ success: true, statusCode: 200, data: blockchain });
@@ -6,7 +12,12 @@ const getBlockchain = (req, res, next) => {
 
 const mineBlock = async (req, res, next) => {
   const lastBlock = blockchain.getLastBlock();
-  const data = req.body;
+
+  const validTransactions = transactionPool.validateTransactions();
+  validTransactions.push(Transaction.transactionReward({ miner: wallet }));
+
+  const data = validTransactions;
+
   const { nonce, timestamp, difficulty } = blockchain.proofOfWork(
     lastBlock.currentBlockHash,
     data

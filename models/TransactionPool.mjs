@@ -1,3 +1,5 @@
+import Transaction from './Transaction.mjs';
+
 export default class TransactionPool {
   constructor() {
     this.transactionMap = {};
@@ -16,6 +18,12 @@ export default class TransactionPool {
 
     return transactions.find(
       (transaction) => transaction.inputMap.address === address
+    );
+  }
+
+  validateTransactions() {
+    return Object.values(this.transactionMap).filter((transaction) =>
+      Transaction.validate(transaction)
     );
   }
 }
