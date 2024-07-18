@@ -42,6 +42,8 @@ const mineBlock = async (req, res, next) => {
 
   pubnubServer.broadcast();
 
+  transactionPool.clearBlockTransactions({ chain: blockchain.chain });
+
   res.status(200).json({
     success: true,
     statusCode: 200,

@@ -75,8 +75,10 @@ export default class Blockchain {
     }
   }
 
-  synchronizeChains(chain) {
+  synchronizeChains(chain, onSuccess) {
     if (chain.length > this.chain.length && this.validateChain(chain)) {
+      if (onSuccess) onSuccess();
+
       this.chain = chain;
     } else {
       return;
