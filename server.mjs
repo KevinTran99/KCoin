@@ -1,5 +1,5 @@
 import express from 'express';
-import { blockchain, pubnubServer } from './startup.mjs';
+import { blockchain, pubnubServer, transactionPool } from './startup.mjs';
 import blockchainRouter from './routes/blockchain-routes.mjs';
 import transactionRouter from './routes/transaction-routes.mjs';
 
@@ -19,11 +19,18 @@ app.use('/api/v1/blockchain', blockchainRouter);
 app.use('/api/v1/wallet', transactionRouter);
 
 const synchronize = async () => {
-  const response = await fetch(`${ROOT_NODE}/api/v1/blockchain`);
+  let response = await fetch(`${ROOT_NODE}/api/v1/blockchain`);
   if (response.ok) {
     const result = await response.json();
     console.log('SYNC', result.data.chain);
     blockchain.synchronizeChains(result.data.chain);
+  }
+
+  response = await fetch(`${ROOT_NODE}/api/v1/wallet/transactions`);
+  if (response.ok) {
+    const result = await response.json();
+    console.log('SYNC', result.data);
+    transactionPool.synchronizeTransactions(result.data);
   }
 };
 

@@ -7,6 +7,10 @@ export default class TransactionPool {
     this.transactionMap[transaction.id] = transaction;
   }
 
+  synchronizeTransactions(transactionMap) {
+    this.transactionMap = transactionMap;
+  }
+
   transactionExist({ address }) {
     const transactions = Object.values(this.transactionMap);
 
