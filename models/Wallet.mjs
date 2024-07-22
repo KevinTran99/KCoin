@@ -8,13 +8,42 @@ export default class Wallet {
     this.publicKey = this.keyPair.getPublic().encode('hex');
   }
 
-  sign(data) {
-    return this.keyPair.sign(createHash(data));
+  static calculateBalance({ chain, address }) {
+    let total = 0;
+    let hasAddedTransaction = false;
+
+    for (let i = chain.length - 1; i > 0; i--) {
+      const block = chain[i];
+
+      for (let transaction of block.data) {
+        if (transaction.inputMap.address === address)
+          return (hasAddedTransaction = true);
+
+        const value = transaction.outputMap[address];
+
+        if (value) [(total += value)];
+      }
+
+      if (hasAddedTransaction) break;
+    }
+
+    return hasAddedTransaction ? total : +process.env.INITIAL_BALANCE + total;
   }
 
-  createTransaction({ recipient, amount }) {
+  createTransaction({ recipient, amount, chain }) {
+    if (chain) {
+      this.balance = Wallet.calculateBalance({
+        chain,
+        address: this.publicKey,
+      });
+    }
+
     if (amount > this.balance) throw new Error('Not enough funds');
 
     return new Transaction({ sender: this, recipient, amount });
+  }
+
+  sign(data) {
+    return this.keyPair.sign(createHash(data));
   }
 }
