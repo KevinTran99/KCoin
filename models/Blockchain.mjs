@@ -98,7 +98,7 @@ export default class Blockchain {
       let counter = 0;
 
       for (let transaction of block.data) {
-        if (transaction.inputMap.address === 'reward-address') {
+        if (transaction.inputMap.address === 'coinbase') {
           counter++;
 
           if (counter > 1) return false;

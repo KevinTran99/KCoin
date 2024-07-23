@@ -12,7 +12,7 @@ export default class Transaction {
 
   static transactionReward({ miner }) {
     return new this({
-      inputMap: { address: 'reward-address' },
+      inputMap: { address: 'coinbase' },
       outputMap: { [miner.publicKey]: +process.env.MINING_REWARD },
     });
   }
