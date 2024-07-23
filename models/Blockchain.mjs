@@ -98,7 +98,7 @@ export default class Blockchain {
       let counter = 0;
 
       for (let transaction of block.data) {
-        if (transaction.inputMap.address === 'reward-adress') {
+        if (transaction.inputMap.address === 'reward-address') {
           counter++;
 
           if (counter > 1) return false;
@@ -121,6 +121,8 @@ export default class Blockchain {
         }
       }
     }
+
+    return true;
   }
 
   validateChain(blockchain) {
