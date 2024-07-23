@@ -10,6 +10,31 @@ export default class Transaction {
       inputMap || this.createInputMap({ sender, outputMap: this.outputMap });
   }
 
+  static transactionReward({ miner }) {
+    return new this({
+      inputMap: { address: 'reward-address' },
+      outputMap: { [miner.publicKey]: +process.env.MINING_REWARD },
+    });
+  }
+
+  static validate(transaction) {
+    const {
+      inputMap: { address, amount, signature },
+      outputMap,
+    } = transaction;
+
+    const outputTotal = Object.values(outputMap).reduce(
+      (total, amount) => total + amount
+    );
+
+    if (amount !== outputTotal) return false;
+
+    if (!verifySignature({ publicKey: address, data: outputMap, signature }))
+      return false;
+
+    return true;
+  }
+
   createOutputMap({ sender, recipient, amount }) {
     const outputMap = {};
 
@@ -42,30 +67,5 @@ export default class Transaction {
       this.outputMap[sender.publicKey] - amount;
 
     this.inputMap = this.createInputMap({ sender, outputMap: this.outputMap });
-  }
-
-  static validate(transaction) {
-    const {
-      inputMap: { address, amount, signature },
-      outputMap,
-    } = transaction;
-
-    const outputTotal = Object.values(outputMap).reduce(
-      (total, amount) => total + amount
-    );
-
-    if (amount !== outputTotal) return false;
-
-    if (!verifySignature({ publicKey: address, data: outputMap, signature }))
-      return false;
-
-    return true;
-  }
-
-  static transactionReward({ miner }) {
-    return new this({
-      inputMap: { address: 'reward-adress' },
-      outputMap: { [miner.publicKey]: +process.env.MINING_REWARD },
-    });
   }
 }
