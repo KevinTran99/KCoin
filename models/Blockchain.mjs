@@ -78,6 +78,11 @@ export default class Blockchain {
 
   synchronizeChains(chain, onSuccess) {
     if (chain.length > this.chain.length && this.validateChain(chain)) {
+      if (!this.validateTransactionData({ chain })) {
+        console.log('Invalid transaction data.');
+        return;
+      }
+
       if (onSuccess) onSuccess();
 
       this.chain = chain;
