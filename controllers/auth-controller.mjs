@@ -9,11 +9,23 @@ export const register = async (req, res, next) => {
   res.status(201).json({ success: true, statusCode: 201, message: user });
 };
 
-export const login = (req, res, next) => {
+export const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
     return next(new ErrorResponse('Email or password is missing', 400));
+  }
+
+  const user = await User.findOne({ email }).select('+password');
+
+  if (!user) {
+    return next(new ErrorResponse('Incorrect login', 401));
+  }
+
+  const isCorrect = await user.validatePassword(password);
+
+  if (!isCorrect) {
+    return next(new ErrorResponse('Incorrect login', 401));
   }
 
   res
