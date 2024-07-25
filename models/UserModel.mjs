@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypto from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: [true, 'Name required'] },
@@ -21,6 +22,14 @@ const userSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordTokenTokenExpire: Date,
   createdAt: { type: Date, default: Date.now },
+});
+
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
+  this.password = await bcrypto.hash(this.password, 10);
 });
 
 export default mongoose.model('User', userSchema);
