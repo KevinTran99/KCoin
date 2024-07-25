@@ -2,6 +2,7 @@ import express from 'express';
 import { blockchain, pubnubServer, transactionPool } from './startup.mjs';
 import blockchainRouter from './routes/blockchain-routes.mjs';
 import transactionRouter from './routes/transaction-routes.mjs';
+import authRouter from './routes/auth-routes.mjs';
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ setTimeout(() => {
 
 app.use('/api/v1/blockchain', blockchainRouter);
 app.use('/api/v1/wallet', transactionRouter);
+app.use('/api/v1/auth', authRouter);
 
 const synchronize = async () => {
   let response = await fetch(`${ROOT_NODE}/api/v1/blockchain`);
