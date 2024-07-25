@@ -1,11 +1,13 @@
 import express from 'express';
 import { blockchain, pubnubServer, transactionPool } from './startup.mjs';
+import morgan from 'morgan';
 import blockchainRouter from './routes/blockchain-routes.mjs';
 import transactionRouter from './routes/transaction-routes.mjs';
 import authRouter from './routes/auth-routes.mjs';
 
 const app = express();
 app.use(express.json());
+app.use(morgan('dev'));
 
 const DEFAULT_PORT = +process.env.PORT;
 const ROOT_NODE = `http://localhost:${DEFAULT_PORT}`;
