@@ -47,10 +47,16 @@ if (process.env.GENERATE_NODE_PORT === 'true') {
 
 const PORT = NODE_PORT || DEFAULT_PORT;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 
   if (PORT !== DEFAULT_PORT) {
     synchronize();
   }
+});
+
+process.on('unhandledRejection', (err, promise) => {
+  console.log(`ERROR: ${err.message}`);
+
+  server.close(() => process.exit(1));
 });
