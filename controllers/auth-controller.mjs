@@ -1,3 +1,4 @@
+import ErrorResponse from '../models/ErrorResponseModel.mjs';
 import User from '../models/UserModel.mjs';
 
 export const register = async (req, res, next) => {
@@ -9,6 +10,12 @@ export const register = async (req, res, next) => {
 };
 
 export const login = (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return next(new ErrorResponse('Email or password is missing', 400));
+  }
+
   res
     .status(200)
     .json({ success: true, statusCode: 200, message: 'login works' });

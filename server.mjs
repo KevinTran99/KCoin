@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import blockchainRouter from './routes/blockchain-routes.mjs';
 import transactionRouter from './routes/transaction-routes.mjs';
 import authRouter from './routes/auth-routes.mjs';
+import { errorHandler } from './middleware/errorHandler.mjs';
 
 connectDb();
 
@@ -24,6 +25,8 @@ setTimeout(() => {
 app.use('/api/v1/blockchain', blockchainRouter);
 app.use('/api/v1/wallet', transactionRouter);
 app.use('/api/v1/auth', authRouter);
+
+app.use(errorHandler);
 
 const synchronize = async () => {
   let response = await fetch(`${ROOT_NODE}/api/v1/blockchain`);
