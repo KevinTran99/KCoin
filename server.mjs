@@ -1,9 +1,12 @@
 import express from 'express';
 import { blockchain, pubnubServer, transactionPool } from './startup.mjs';
+import { connectDb } from './config/mongodb.mjs';
 import morgan from 'morgan';
 import blockchainRouter from './routes/blockchain-routes.mjs';
 import transactionRouter from './routes/transaction-routes.mjs';
 import authRouter from './routes/auth-routes.mjs';
+
+connectDb();
 
 const app = express();
 app.use(express.json());
