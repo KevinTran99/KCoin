@@ -1,15 +1,16 @@
+import { asyncHandler } from '../middleware/asyncHandler.mjs';
 import ErrorResponse from '../models/ErrorResponseModel.mjs';
 import User from '../models/UserModel.mjs';
 
-export const register = async (req, res, next) => {
+export const register = asyncHandler(async (req, res, next) => {
   const { name, email, password, role } = req.body;
 
   const user = await User.create({ name, email, password, role });
 
   createAndSendToken(user, 201, res);
-};
+});
 
-export const login = async (req, res, next) => {
+export const login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -29,7 +30,7 @@ export const login = async (req, res, next) => {
   }
 
   createAndSendToken(user, 200, res);
-};
+});
 
 export const getMe = (req, res, next) => {
   res
