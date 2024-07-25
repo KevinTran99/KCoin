@@ -6,7 +6,7 @@ export const register = async (req, res, next) => {
 
   const user = await User.create({ name, email, password, role });
 
-  res.status(201).json({ success: true, statusCode: 201, message: user });
+  createAndSendToken(user, 201, res);
 };
 
 export const login = async (req, res, next) => {
@@ -28,9 +28,7 @@ export const login = async (req, res, next) => {
     return next(new ErrorResponse('Incorrect login', 401));
   }
 
-  res
-    .status(200)
-    .json({ success: true, statusCode: 200, message: 'login works' });
+  createAndSendToken(user, 200, res);
 };
 
 export const getMe = (req, res, next) => {
@@ -51,4 +49,8 @@ export const resetPassword = async (req, res, next) => {
     .json({ success: true, statusCode: 200, data: 'resetPassword works' });
 };
 
-const createAndSendToken = (id, statusCode, res) => {};
+const createAndSendToken = (user, statusCode, res) => {
+  const token = user.generateToken();
+
+  res.status(statusCode).json({ success: true, statusCode, token });
+};
