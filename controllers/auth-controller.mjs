@@ -32,11 +32,11 @@ export const login = asyncHandler(async (req, res, next) => {
   createAndSendToken(user, 200, res);
 });
 
-export const getMe = (req, res, next) => {
-  res
-    .status(200)
-    .json({ success: true, statusCode: 200, message: 'getMe works' });
-};
+export const getMe = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({ success: true, statusCode: 200, data: user });
+});
 
 export const forgotPassword = async (req, res, next) => {
   res
