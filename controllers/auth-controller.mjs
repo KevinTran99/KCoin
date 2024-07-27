@@ -38,6 +38,39 @@ export const getMe = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, statusCode: 200, data: user });
 });
 
+export const updateUserDetails = asyncHandler(async (req, res, next) => {
+  const fieldsToUpdate = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+
+  const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({ success: true, statusCode: 200, data: user });
+});
+
+export const updatePassword = asyncHandler(async (req, res, next) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    return next(new ErrorResponse('Input valid passwords', 400));
+  }
+
+  const user = await User.findById(req.user.id).select('+password');
+
+  if (!(await user.validatePassword(currentPassword))) {
+    return next(new ErrorResponse('Password invalid', 401));
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  createAndSendToken(user, 200, res);
+});
+
 export const forgotPassword = async (req, res, next) => {
   res
     .status(200)
