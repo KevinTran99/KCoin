@@ -101,11 +101,28 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const resetPassword = async (req, res, next) => {
-  res
-    .status(200)
-    .json({ success: true, statusCode: 200, data: 'resetPassword works' });
-};
+export const resetPassword = asyncHandler(async (req, res, next) => {
+  const password = req.body.password;
+  const token = req.params.token;
+
+  if (!password || !token) {
+    return next(new ErrorResponse('Password or token missing', 400));
+  }
+
+  let user = await User.findOne({ resetPasswordToken: token });
+
+  if (!user) {
+    return next(new ErrorResponse('Token is invalid or has expired', 400));
+  }
+
+  user.password = password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordTokenExpire = undefined;
+
+  await user.save();
+
+  createAndSendToken(user, 200, res);
+});
 
 const createAndSendToken = (user, statusCode, res) => {
   const token = user.generateToken();
