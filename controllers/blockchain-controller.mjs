@@ -5,12 +5,13 @@ import {
   transactionPool,
   wallet,
 } from '../startup.mjs';
+import { asyncHandler } from '../middleware/asyncHandler.mjs';
 
 const getBlockchain = (req, res, next) => {
   res.status(200).json({ success: true, statusCode: 200, data: blockchain });
 };
 
-const mineBlock = async (req, res, next) => {
+const mineBlock = asyncHandler(async (req, res, next) => {
   const lastBlock = blockchain.getLastBlock();
 
   const validTransactions = transactionPool.validateTransactions();
@@ -40,6 +41,9 @@ const mineBlock = async (req, res, next) => {
     difficulty
   );
 
+  await blockchain.clearDatabase();
+  await blockchain.saveBlockchainToDatabase();
+
   pubnubServer.broadcast();
 
   transactionPool.clearBlockTransactions({ chain: blockchain.chain });
@@ -49,6 +53,6 @@ const mineBlock = async (req, res, next) => {
     statusCode: 200,
     data: { message: 'Block created and distributed', block },
   });
-};
+});
 
 export { mineBlock, getBlockchain };

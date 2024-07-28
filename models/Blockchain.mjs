@@ -1,6 +1,7 @@
 import { createHash } from '../utilities/crypto-lib.mjs';
 import Block from './Block.mjs';
 import Transaction from './Transaction.mjs';
+import blockSchema from '../models/BlockModel.mjs';
 
 export default class Blockchain {
   constructor() {
@@ -151,4 +152,14 @@ export default class Blockchain {
 
     return true;
   }
+
+  clearDatabase = async () => {
+    await blockSchema.deleteMany({});
+  };
+
+  saveBlockchainToDatabase = async () => {
+    for (const block of this.chain) {
+      await new blockSchema(block).save();
+    }
+  };
 }
