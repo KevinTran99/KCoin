@@ -24,7 +24,7 @@ export const Login = () => {
       localStorage.setItem('token', response.data.token);
 
       setTimeout(() => {
-        navigate('/');
+        navigate('/dashboard');
       }, 2000);
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
