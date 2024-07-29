@@ -6,10 +6,12 @@ import blockchainRouter from './routes/blockchain-routes.mjs';
 import transactionRouter from './routes/transaction-routes.mjs';
 import authRouter from './routes/auth-routes.mjs';
 import { errorHandler } from './middleware/errorHandler.mjs';
+import cors from 'cors';
 
 connectDb();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
