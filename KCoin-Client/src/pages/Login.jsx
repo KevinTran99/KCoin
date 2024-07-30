@@ -25,9 +25,8 @@ export const Login = () => {
 
       localStorage.setItem('token', response.data.token);
 
-      await checkAuth();
-
-      setTimeout(() => {
+      setTimeout(async () => {
+        await checkAuth();
         navigate('/dashboard');
       }, 2000);
     } catch (err) {
