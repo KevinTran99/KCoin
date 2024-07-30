@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import api from '../api';
 
 export const Login = () => {
@@ -8,6 +9,7 @@ export const Login = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
+  const { checkAuth } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,8 @@ export const Login = () => {
       setError(null);
 
       localStorage.setItem('token', response.data.token);
+
+      await checkAuth();
 
       setTimeout(() => {
         navigate('/dashboard');
