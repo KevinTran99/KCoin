@@ -26,7 +26,7 @@ export const Layout = () => {
             {user && (
               <>
                 <li>
-                  <NavLink to={'/dashboard'}>Dashboard</NavLink>
+                  <NavLink to={'/blockchain'}>Blockchain</NavLink>
                 </li>
                 <li>
                   <NavLink to={'/transactions'}>Send Transactions</NavLink>

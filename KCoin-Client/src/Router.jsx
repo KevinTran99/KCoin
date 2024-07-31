@@ -4,7 +4,7 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Layout } from './pages/Layout';
 import { NotFound } from './pages/NotFound';
-import { Dashboard } from './pages/Dashboard';
+import { Blockchain } from './pages/Blockchain';
 import { Unauthorized } from './pages/Unauthorized';
 import { Transactions } from './pages/Transactions';
 import { Mine } from './pages/Mine';
@@ -34,10 +34,10 @@ export const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: '/dashboard',
+        path: '/blockchain',
         element: (
           <ProtectedRoute requiredRoles={['user', 'manager']}>
-            <Dashboard />
+            <Blockchain />
           </ProtectedRoute>
         ),
       },

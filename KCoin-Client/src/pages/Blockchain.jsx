@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api';
-import '../styles/dashboard.css';
+import '../styles/blockchain.css';
 
-export const Dashboard = () => {
+export const Blockchain = () => {
   const [blockchain, setBlockchain] = useState([]);
   const [error, setError] = useState(null);
   const [refreshMessage, setRefreshMessage] = useState('');
