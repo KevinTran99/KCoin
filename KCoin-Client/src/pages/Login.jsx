@@ -28,7 +28,7 @@ export const Login = () => {
 
       setTimeout(async () => {
         await checkAuth();
-        navigate('/dashboard');
+        navigate('/');
       }, 2000);
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
