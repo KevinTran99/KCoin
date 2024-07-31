@@ -44,9 +44,10 @@ const mineBlock = asyncHandler(async (req, res, next) => {
   await blockchain.clearDatabase();
   await blockchain.saveBlockchainToDatabase();
 
-  pubnubServer.broadcast();
-
   transactionPool.clearBlockTransactions({ chain: blockchain.chain });
+
+  pubnubServer.broadcast();
+  pubnubServer.broadcastTransactionPool();
 
   res.status(200).json({
     success: true,

@@ -1,9 +1,10 @@
 import PubNub from 'pubnub';
+import Transaction from './models/Transaction.mjs';
 
 const CHANNELS = {
   DEMO: 'DEMO',
   BLOCKCHAIN: 'BLOCKCHAIN',
-  TRANSACTION: 'TRANSACTION',
+  TRANSACTION_POOL: 'TRANSACTION_POOL',
 };
 
 export default class PubNubServer {
@@ -23,10 +24,10 @@ export default class PubNubServer {
     });
   }
 
-  broadcastTransaction(transaction) {
+  broadcastTransactionPool() {
     this.publish({
-      channel: CHANNELS.TRANSACTION,
-      message: JSON.stringify(transaction),
+      channel: CHANNELS.TRANSACTION_POOL,
+      message: JSON.stringify(this.transactionPool.transactionMap),
     });
   }
 
@@ -46,14 +47,17 @@ export default class PubNubServer {
               this.transactionPool.clearBlockTransactions({ chain: msg });
             });
             break;
-          case CHANNELS.TRANSACTION:
-            if (
-              !this.transactionPool.transactionExist({
-                address: this.wallet.publicKey,
-              })
-            ) {
-              this.transactionPool.addTransaction(msg);
-            }
+          case CHANNELS.TRANSACTION_POOL:
+            const transactions = Object.values(msg).map(
+              (tx) => new Transaction(tx)
+            );
+
+            const transactionMap = transactions.reduce((map, transaction) => {
+              map[transaction.id] = transaction;
+              return map;
+            }, {});
+
+            this.transactionPool.synchronizeTransactions(transactionMap);
             break;
           default:
             return;

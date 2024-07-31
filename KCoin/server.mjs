@@ -34,14 +34,14 @@ const synchronize = async () => {
   let response = await fetch(`${ROOT_NODE}/api/v1/blockchain`);
   if (response.ok) {
     const result = await response.json();
-    console.log('SYNC', result.data.chain);
+
     blockchain.synchronizeChains(result.data.chain);
   }
 
   response = await fetch(`${ROOT_NODE}/api/v1/wallet/transactions`);
   if (response.ok) {
     const result = await response.json();
-    console.log('SYNC', result.data);
+
     transactionPool.synchronizeTransactions(result.data);
   }
 };
