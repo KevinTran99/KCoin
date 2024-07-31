@@ -7,7 +7,10 @@ import {
 } from '../startup.mjs';
 
 export const addTransaction = (req, res, next) => {
-  const { amount, recipient } = req.body;
+  const recipient = req.body.recipient;
+  let amount = req.body.amount;
+
+  amount = parseInt(amount, 10);
 
   let transaction = transactionPool.transactionExist({
     address: wallet.publicKey,
