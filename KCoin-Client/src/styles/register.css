@@ -1,0 +1,13 @@
+.register-form div {
+  display: flex;
+  justify-content: center;
+}
+
+.register-form button {
+  margin: 0.5rem;
+}
+
+.register-form div label {
+  display: flex;
+  width: 5rem;
+}

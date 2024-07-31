@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api';
+import '../styles/login.css';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -38,7 +39,7 @@ export const Login = () => {
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="login-from" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">Email:</label>
           <input

@@ -1,0 +1,13 @@
+.login-from div {
+  display: flex;
+  justify-content: center;
+}
+
+.login-from button {
+  margin: 0.5rem;
+}
+
+.login-from div label {
+  display: flex;
+  width: 5rem;
+}
