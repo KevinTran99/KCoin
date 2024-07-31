@@ -1,0 +1,22 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-left: 2.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: start;
+}
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin: 0;
+}
+
+h3,
+h4 {
+  margin: 0;
+}

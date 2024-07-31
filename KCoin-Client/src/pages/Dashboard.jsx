@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api';
+import '../styles/dashboard.css';
 
 export const Dashboard = () => {
   const [blockchain, setBlockchain] = useState([]);
@@ -37,18 +38,40 @@ export const Dashboard = () => {
       <button onClick={fetchBlockchain}>Refresh Blockchain</button>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {refreshMessage && <p>{refreshMessage}</p>}
-      <div>
-        {blockchain.length > 0 ? (
-          blockchain.map((block, index) => (
-            <div key={index}>
-              <h3>Block {index}</h3>
-              <p>{JSON.stringify(block)}</p>
-            </div>
-          ))
-        ) : (
-          <p>No blocks found</p>
-        )}
-      </div>
+
+      {blockchain.length > 0 &&
+        blockchain.map((block, blockIndex) => (
+          <div className="block" key={blockIndex}>
+            <h3>Block {blockIndex + 1}</h3>
+            <ul>
+              <li>Timestamp: {block.timestamp}</li>
+              <li>BlockHash: {block.currentBlockHash}</li>
+              <li>LastBlockHash: {block.lastBlockHash}</li>
+            </ul>
+
+            {block.data.length > 0 &&
+              block.data.map((tx, txIndex) => (
+                <div key={txIndex}>
+                  <h4>Transaction {txIndex + 1}:</h4>
+
+                  <div>
+                    <ul>From: {tx.inputMap.address}</ul>
+
+                    {Object.keys(tx.outputMap).map((recipient, index) => {
+                      if (index === 1) return null;
+
+                      return (
+                        <ul key={index}>
+                          <li>To: {recipient}</li>
+                          <li>Value: {tx.outputMap[recipient]}</li>
+                        </ul>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+          </div>
+        ))}
     </div>
   );
 };
