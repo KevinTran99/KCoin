@@ -104,8 +104,19 @@ export const Transactions = () => {
               <ul>
                 <li>Timestamp: {JSON.stringify(tx.inputMap.timestamp)}</li>
                 <li>From: {Object.keys(tx.outputMap)[1]}</li>
-                <li>To: {Object.keys(tx.outputMap)[0]}</li>
-                <li>Value: {tx.outputMap[Object.keys(tx.outputMap)[0]]}</li>
+
+                <li>
+                  {Object.keys(tx.outputMap).map((key, idx) => {
+                    if (idx === 1) return null;
+
+                    return (
+                      <ul key={idx}>
+                        <li>To: {key}</li>
+                        <li>Value: {tx.outputMap[key]}</li>
+                      </ul>
+                    );
+                  })}
+                </li>
               </ul>
             </div>
           ))
