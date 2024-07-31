@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
+import '../styles/transactions.css';
 
 export const Transactions = () => {
   const [amount, setAmount] = useState('');
@@ -63,39 +64,42 @@ export const Transactions = () => {
     <div>
       <h2>Send Transactions</h2>
 
-      <form onSubmit={handleAddTransaction}>
+      <form className="transaction-form" onSubmit={handleAddTransaction}>
         <div>
-          <label>
-            Amount:
+          <div className="amount">
+            <label>Amount:</label>
             <input
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
             />
-          </label>
-        </div>
-        <div>
-          <label>
-            Recipient:
+          </div>
+
+          <div className="recipient">
+            <label>Recipient:</label>
             <input
               type="text"
               value={recipient}
               onChange={(e) => setRecipient(e.target.value)}
               required
             />
-          </label>
+          </div>
         </div>
+
         <button type="submit">Add Transaction</button>
       </form>
 
-      <button onClick={fetchPendingTransactions}>Refresh Transactions</button>
+      <button className="refresh-button" onClick={fetchPendingTransactions}>
+        Refresh Transactions
+      </button>
+
       {refreshMessage && <p>{refreshMessage}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <h3>Pending Transactions</h3>
 
-      <div>
+      <div className="transactions">
         {pendingTransactions.length > 0 ? (
           pendingTransactions.map((tx, index) => (
             <div key={index}>
@@ -121,7 +125,7 @@ export const Transactions = () => {
             </div>
           ))
         ) : (
-          <li>No pending transactions</li>
+          <p>No pending transactions</p>
         )}
       </div>
     </div>

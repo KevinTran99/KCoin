@@ -1,0 +1,44 @@
+.transaction-form {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.amount,
+.recipient {
+  display: flex;
+  justify-content: center;
+}
+
+.amount label,
+.recipient label {
+  display: flex;
+  width: 5rem;
+}
+
+.refresh-button {
+  margin: 0.5rem;
+}
+
+p {
+  margin: 0.5rem;
+}
+
+h3 {
+  margin-bottom: 0.5rem;
+}
+
+.transactions {
+  text-align: start;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
+
+p {
+  display: flex;
+  justify-content: center;
+}
