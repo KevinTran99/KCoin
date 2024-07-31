@@ -1,0 +1,11 @@
+.home h2,
+.home ul {
+  margin: 0;
+  text-align: start;
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
+
+.home ul li {
+  font-weight: bold;
+}
