@@ -1,4 +1,6 @@
 import Wallet from '../models/Wallet.mjs';
+import ErrorResponse from '../models/ErrorResponseModel.mjs';
+
 import {
   blockchain,
   pubnubServer,
@@ -23,9 +25,7 @@ export const addTransaction = (req, res, next) => {
       transaction = wallet.createTransaction({ recipient, amount });
     }
   } catch (error) {
-    return res
-      .status(400)
-      .json({ success: false, statusCode: 400, error: error.message });
+    return next(new ErrorResponse(error.message, 400));
   }
 
   transactionPool.addTransaction(transaction);
