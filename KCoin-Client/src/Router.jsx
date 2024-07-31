@@ -6,6 +6,7 @@ import { Layout } from './pages/Layout';
 import { NotFound } from './pages/NotFound';
 import { Dashboard } from './pages/Dashboard';
 import { Unauthorized } from './pages/Unauthorized';
+import { Transactions } from './pages/Transactions';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -36,6 +37,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute requiredRoles={['user', 'manager']}>
             <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/transactions',
+        element: (
+          <ProtectedRoute requiredRoles={['user', 'manager']}>
+            <Transactions />
           </ProtectedRoute>
         ),
       },

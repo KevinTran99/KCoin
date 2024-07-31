@@ -29,7 +29,7 @@ export const Layout = () => {
                   <NavLink to={'/dashboard'}>Dashboard</NavLink>
                 </li>
                 <li>
-                  <NavLink to={'/dashboard'}>Send Transaction</NavLink>
+                  <NavLink to={'/transactions'}>Send Transactions</NavLink>
                 </li>
               </>
             )}
