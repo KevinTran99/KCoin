@@ -31,6 +31,9 @@ export const Layout = () => {
                 <li>
                   <NavLink to={'/transactions'}>Send Transactions</NavLink>
                 </li>
+                <li>
+                  <NavLink to={'/mine'}>Mine</NavLink>
+                </li>
               </>
             )}
           </ul>
